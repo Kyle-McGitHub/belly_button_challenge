@@ -6,7 +6,7 @@ function buildMetadata(id) {
     let metadata = data.metadata;
 
     // Filter the metadata for the object with the desired sample number
-    let resultArray = metadata.filter(sampleObj => sampleObj.id == id);
+    let resultArray = metadata.filter(sampleObj => sampleObj.id == "id");
     let result = resultArray[0];
 
     // Use d3 to select the panel with id of `#sample-metadata`
