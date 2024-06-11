@@ -1,12 +1,12 @@
 // Build the metadata panel
-function buildMetadata(metadata) {
+function buildMetadata(id) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
     // Get the metadata field
     let metadata = data.metadata;
 
     // Filter the metadata for the object with the desired sample number
-    let resultArray = metadata.filter(metadataObj => metadataObj.id == metadata);
+    let resultArray = metadata.filter(sampleObj => sampleObj.id == id);
     let result = resultArray[0];
 
     // Use d3 to select the panel with id of `#sample-metadata`
