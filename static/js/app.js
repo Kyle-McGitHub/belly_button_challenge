@@ -36,8 +36,6 @@ function buildMetadata(sample) {
     // Inside a loop, you will need to use d3 to append new
     // tags for each key-value in the filtered metadata.
 
-  });
-}
 
 // function to build both charts
 function buildCharts(sample) {
