@@ -26,31 +26,60 @@ function buildMetadata(sample) {
 function buildCharts(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
-    // Get the samples field
+   // Get the samples field
+   let samples = data.samples;
 
+   // Filter the samples for the object with the desired sample number
+   let sampleData = samples.filter(sampleObj => sampleObj.id == sample)[0];
 
-    // Filter the samples for the object with the desired sample number
+   // Get the otu_ids, otu_labels, and sample_values
+   let otuIds = sampleData.otu_ids;
+   let otuLabels = sampleData.otu_labels;
+   let sampleValues = sampleData.sample_values;
 
+   // Build a Bubble Chart
+   let bubbleChartTrace = {
+     x: otuIds,
+     y: sampleValues,
+     text: otuLabels,
+     mode: 'markers',
+     marker: {
+       size: sampleValues,
+       color: otuIds,
+       colorscale: 'Earth'
+     }
+   };
 
-    // Get the otu_ids, otu_labels, and sample_values
+   let bubbleChartData = [bubbleChartTrace];
 
+   let bubbleChartLayout = {
+     title: 'Bubble Chart',
+     xaxis: { title: 'OTU ID' },
+     yaxis: { title: 'Sample Values' }
+   };
 
-    // Build a Bubble Chart
+   Plotly.newPlot('bubble-chart', bubbleChartData, bubbleChartLayout);
 
+   // For the Bar Chart, map the otu_ids to a list of strings for your yticks
+   let yticks = otuIds.slice(0, 10).map(otuId => `OTU ${otuId}`).reverse();
 
-    // Render the Bubble Chart
+   // Build a Bar Chart
+   let barChartData = [{
+     type: 'bar',
+     x: sampleValues.slice(0, 10).reverse(),
+     y: yticks,
+     text: otuLabels.slice(0, 10).reverse(),
+     orientation: 'h'
+   }];
 
+   let barChartLayout = {
+     title: 'Top 10 OTUs',
+     xaxis: { title: 'Sample Values' },
+     yaxis: { title: 'OTU ID' }
+   };
 
-    // For the Bar Chart, map the otu_ids to a list of strings for your yticks
-
-
-    // Build a Bar Chart
-    // Don't forget to slice and reverse the input data appropriately
-
-
-    // Render the Bar Chart
-
-  });
+   Plotly.newPlot('bar-chart', barChartData, barChartLayout);
+ });
 }
 
 // Function to run on page load
