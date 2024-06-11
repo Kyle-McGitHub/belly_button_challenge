@@ -1,9 +1,28 @@
+import * as d3 from 'd3';
+
 // Build the metadata panel
 function buildMetadata(sample) {
   d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
 
     // get the metadata field
+    const metadata = data.metadata;
+      
+    let allKeys = [];
 
+    // Loop through each object in the metadata array
+    metadata.forEach(item => {
+      // Retrieve the keys from the current object and add them to the allKeys array
+      Object.keys(item).forEach(key => {
+        if (!allKeys.includes(key)) {
+          allKeys.push(key);
+        }
+      });
+    });
+
+    // Now 'allKeys' contains all unique keys associated with the metadata
+    console.log("All Keys:", allKeys);
+  });
+}
 
     // Filter the metadata for the object with the desired sample number
 
